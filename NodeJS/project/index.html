@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<htmal>
+    <head>
+        <title>Quotes</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+
+
+        <div id="quotes"></div>
+        <div id="author"></div>
+        <button id="newQuot">newQuotes</button>
+        <button id="tweet"><img src="tweeterlogo.jpg" height="13" width="25"></button>
+        <script>
+
+            const quotes = document.getElementById("quotes");
+            const author = document.getElementById("author");
+            const newQuot = document.getElementById("newQuot");
+            const tweet = document.getElementById("tweet");
+
+
+            const tweetNow = () => {
+                let post = `https://twitter.com/intent/tweet?text=${realdata[rnum].text} by ${realdata[rnum].author}`;
+                window.open(post);
+            }
+
+            let realdata="";
+            let rnum = "";
+            const getnewQuotes = () =>{
+                rnum = Math.floor(Math.random()*10);
+                console.log(realdata[rnum].text);
+                console.log(realdata[rnum].author);
+                quotes.innerText = `${realdata[rnum].text}`;
+                author.innerText = `${realdata[rnum].author}`;
+            };
+
+
+            const getQuotes = async() => {
+                const api="http://type.fit/api/quotes";
+                try{
+                    let data = await fetch(api);
+                    realdata = await data.json();
+                    getnewQuotes();
+                }catch(error){
+                    console.log(error);
+                }
+            };
+
+
+            tweet.addEventListener('click',tweetNow);
+            newQuot.addEventListener('click',getnewQuotes);
+            getQuotes();
+
+        </script>
+
+
+    </body>
+</htmal>

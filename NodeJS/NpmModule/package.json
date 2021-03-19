@@ -1,0 +1,15 @@
+{
+  "name": "npmmodule",
+  "version": "1.0.0",
+  "description": "Easily Make a Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kausik Porey",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "validator": "^13.5.2"
+  }
+}

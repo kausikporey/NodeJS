@@ -1,0 +1,156 @@
+Today is awsome day.
+Tommorrow was also awesome.
+Working Principles of PLC Ladder Diagram
+Preface-The Background and Functions of PLC ...................................................... 1-1
+1.1 The Working Principles of Ladder Diagram........................................................ 1-1
+1.2 The Difference between Traditional Ladder Diagram and PLC Ladder Diagram ... 1-2
+1.3 Edition Explanation of Ladder Diagram ............................................................. 1-4
+1.4 The Edition of PLC Ladder Diagram.................................................................. 1-8
+1.5 The Conversion of PLC Command and Each Diagram Structure ......................... 1-11
+1.6 The Simplification of Ladder Diagram ............................................................... 1-14
+1.7 The Example for Designing Basic Program........................................................ 1-16
+Chapter 2 DVP-PLC Function
+2.1 Summary of DVP-PLC Device Number .............................................................. 2-1
+2.2 Value, constant [K] / [H] ................................................................................... 2-7
+2.3 The Numbering and Function of External Input/Output Contact [X] / [Y] .............. 2-9
+2.4 The Numbering and Function of Auxiliary Relay [M] ........................................... 2-11
+2.5 The Numbering and Function of Step Relay [S] ................................................. 2-12
+2.6 The Numbering and Function of Timer [T] ......................................................... 2-13
+2.7 The Numbering and Function of Counter [C]...................................................... 2-16
+2.8 Register Number and Function [D], [E], [F] ........................................................ 2-28
+2.8.1 Data register [D] ........................................................................................ 2-28
+2.8.2 Index Register [E], [F] ................................................................................ 2-29
+2.8.3 File Register Function and Characteristics .................................................. 2-30
+2.9 Nest Level Pointer[N], Pointer[P], Interrupt Pointer [I] ........................................ 2-30
+2.10 Special Auxiliary Relay and Special Register ................................................... 2-33
+2.11 Special Auxiliary Relay and Special Register Functions.................................... 2-53
+2.12 Fault Code Information................................................................................... 2-84
+Chapter 3 Basic Commands
+3.1 Summary of Basic Command and Step Ladder Command .................................. 3-1
+3.2 Basic Commands Explanations......................................................................... 3-3
+Chapter 4 Step Ladder Commands
+4.1 Step Ladder Command [STL], [RET] ................................................................. 4-1
+4.2 Sequential Function Chart (SFC) ...................................................................... 4-1
+4.3 Step Ladder Command Explanation .................................................................. 4-2
+4.4 Reminder of Design on the Step Ladder Program .............................................. 4-7
+4.5 Categories of Procedures................................................................................. 4-8
+4.6 IST command .................................................................................................. 4-18
+Chapter 5 Application Commands
+5.1 Summary of Parameters ................................................................................... 5-1
+5.2 Application Command Structure ........................................................................ 5-7
+5.3 Handling of Numeric Values ............................................................................. 5-12
+5.4 Index register E, F ........................................................................................... 5-15
+5.5 Index for Commands ........................................................................................ 5-17
+Chapter 6 Application Commands API 00-49........................................... 6-1
+Chapter 7 Application Commands API 50-99........................................... 7-1
+Chapter 8 Application Commands API 100-149 ....................................... 8-1
+Chapter 9 Application Commands API 150-199 ....................................... 9-1
+Chapter 10 Application Commands API 215-246 .....................................10-1
+1 Working Principles of PLC Ladder Diagram
+DVP-PLC Application Manual 1-1
+Preface----The Background and Functions of PLC
+PLC (Programmable Logic Controller) is one of electronic equipments. It was called “Sequence Controller”
+before. It was named “Programmable Logic Controller (PLC)” by NEMA (National Electrical Manufacture Association)
+in 1978 and defined as electronic equipment. The operation of PLC is in the following:
+Step 1. Read the external input signal, such as the status of keypad, sensor, switch and pulse.
+Step 2. Using microprocessor to execute the calculations of logic, sequence, timer, counter and formula according to
+the status and the value of the input signal read in the step 1 and pre-write programs saved inner to get the
+corresponding output signal, such as open or close of relay, operation of controlled machine or procedure to control
+automatic machine or procedure of manufacture. PLC also can be used to maintain and adjust of production program
+by editing or modifying the peripheral equipments (personal computer/handheld programming panel). The common
+program language of PLC is ladder diagram.
+There are stronger functions in PLC with the development and application requirements of electronic technology,
+such as position control, network and etc. Output/Input signals are DI (Digital Input), AI (Analog Input), PI (Pulse
+Input), DO (Digital Output), AO (Analog Output) and PO (Pulse Output). Thus PLC plays an important role in the
+feature industry.
+1.1 The Working Principles of Ladder Diagram
+Ladder diagram is an automatic control diagram language that developed during World War II. At first, it just has
+basic components, such as A contact (normally open), B contact (normally close), output coil, timer counter and etc.
+(The power panel is made up of these basic components) It has more functions, differential contact, latched coil and
+the application commands, add, minus, multiply and divide calculation, that traditional power panel can’t make since
+PLC is developed.
+The working principles of the traditional Ladder Diagram and the PLC Ladder Diagram are similar to each other;
+the only difference is that the symbols for the traditional ladder diagram are expressed in the format that are close to
+its original substance, while those for the PLC ladder diagram employ the symbols that are more explicit when being
+used in computers or data sheets. In the Ladder Diagram Logics, it could be divided into the Combination Logics
+and the Sequential Logics, and is described as follows:
+1. Combination Logics:
+The following example is the combination logics that show in traditional diagram and PLC ladder diagram
+separately.
+Traditional Ladder Diagram PLC Ladder Diagram
+X4
+X0
+X2
+X3
+X1
+Y0
+Y2
+Y1
+X0
+Y0
+X1
+Y1
+Y2
+X2
+X3
+X4
+1 Working Principles of PLC Ladder Diagram
+1-2 DVP-PLC Application Manual
+Example 1: Circuit 1 utilizes one X0 (NO: Normally Open) switch, which is normally known as the “A” switch or
+contact, and its characteristic is that the contact is in the OFF condition at regular time (not pressed); the
+output point Y0 is thus in OFF condition. However, once the switch motion (the button is pressed) is
+conducted, the contact will be ON, and the output point Y0 will be in ON condition.
+Example 2: Similarly, Circuit 2 utilizes the X1 (NC: Normally Close) switch, which is normally known as the “B” switch
+or contact, and its characteristic is that the contact is in the ON condition at regular time; the output point
+Y0 is thus in ON condition. While the switch motion is conducted (which is in the OFF condition), the
+output point Y0 is in OFF condition.
+Example 3: This is an example of combination logics output, which has more than one input equipment. The output
+point Y2 will be in ON condition when X2 is in OFF condition or X3 and X4 are in ON condition.
+2. Sequential logics:
+The sequential logics are a type of circuit that possesses the “Draw-Back” structure, which is to draw back the
+circuit’s output result and has it serve as the input condition. Thus, under the same input condition, different
+output results will be generated in accordance with previous conditions and motions with different orders.
+The following example is the sequential logics that show in traditional diagram and PLC ladder diagram
+separately.
+Traditional Ladder Diagram PLC Ladder Diagram
+X5 X6 Y3
+Y3
+Y3
+X5
+Y3
+X6
+When the above circuit is just supplied with power, although the X6 switch is ON, the X5 switch is still OFF, thus,
+the output relay Y3 will be in OFF condition; output of the relay will only be ON after X5 is ON. Once the output relay
+Y3 is in ON condition, there will be a feedback signal containing the ON condition from Y3 to connect in parallel with
+the A contact of X5; this circuit is thus also known as the self-latched circuit. The circuit motion is showed in the
+following chart:
+Device status
+Step X5 X6 Y3
+1 N N OFF
+2 Y N ON
+3 N N ON
+4 N Y OFF
+5 N N OFF
+N: is in OFF condition Y: is in ON condition
+From above chart, you can find that the same input may get different result. For example, in the step 1 and 3, the
+status of X5 and X6 are in OFF condition but Y3 is in OFF condition in step 1 and in ON condition in step3. That is due
+to the self-latched circuit feedback input. In this example, it explains with contact A, contact B and output coil. The
+usage of other equipments is the same with this. Please refer to the chapter 3 for the detail.
+1.2 The Difference between Traditional Ladder Diagram and PLC Ladder Diagram
+1 Working Principles of PLC Ladder Diagram
+DVP-PLC Application Manual 1-3
+Although the working principles are in accordance with each other for the traditional ladder diagram and the PLC
+ladder diagram, PLC is indeed utilizing the microcomputer chip (MCU) to simulate the motion of the traditional ladder
+diagram, which is to use the scan method to look over one by one the conditions of all input devices and output coils,
+and afterwards, with the conditions in consideration, to calculate and generate the same output result as that of the
+traditional ladder diagram based on the logics of the combination status of the ladder diagram. However, since that
+there is only one MCU, the only way to examine the circuits is to look it over one after another within the ladder
+diagram program, then calculate the output result in compliance with the program and the input/output status, and
+finally, output the results to the external interface; thereafter, start over with the readout of the input status, the
+calculation, output, and repeatedly go over the above-mentioned motions again; the time needed to complete the
+whole set of cyclic motion is called one Scan Time. The scan time will become longer in accordance with the
+increment of the program. With this scan time, it will incur repeated input detections, and thus, result in delay in the
+output responses; and the longer the delay time, the greater the error towards the control, and what’s worse, is that
+the condition might be unqualified for the control requests. By then, PLC (with faster Scan Time) would be chosen to
+do the job; the scan speed is thus an essential specification to PLC. Thanks to the advanced technique of ASIC (IC
+with specific functions) within the microcomputer

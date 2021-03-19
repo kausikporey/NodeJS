@@ -1,0 +1,15 @@
+{
+  "name": "mongooseexpress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kausik Porey",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.11.8",
+    "validator": "^13.5.2"
+  }
+}
